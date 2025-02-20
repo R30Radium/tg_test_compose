@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: postgres  # Указываем, что используем стадию с PostgreSQL
+    restart: always
+    environment:
+      POSTGRES_DB: meat_test1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Сохраняем данные базы данных
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final  # Указываем, что используем финальную стадию для приложения
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "90:90"  # Порт, на котором будет доступно ваше приложение
+    environment:
+      DATABASE_URL: postgres://postgres:123@db:5432/meat_test1  # Параметры подключения к базе данных
+
+volumes:
+  db_data:  # Определяем том для хранения данных базы данных
