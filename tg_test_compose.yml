@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:17
@@ -17,12 +15,18 @@ services:
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     networks:
       - db-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d meat_test1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     image: radiumr30/meattestrep:latest
     restart: always
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "90:90"
     environment:
@@ -30,9 +34,3 @@ services:
       CONNECTION_STRING: "Host=db;Port=5432;Database=meat_test1;Username=postgres;Password=123"
     networks:
       - db-network
-
-networks:
-  db-network:
-
-volumes:
-  db_data:
