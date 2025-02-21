@@ -16,19 +16,19 @@ services:
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
 
-app:
-  image: radiumr30/meattestrep:latest
-  restart: always
-  depends_on:
-    - db
-  ports:
-    - "90:90"
-  environment:
-    DATABASE_URL: postgres://postgres:123@db:5432/meat_test1
-    CONNECTION_STRING: "Host=db;Port=5432;Database=meat_test1;Username=postgres;Password=123"
-  networks:
-    - db-network
-  command: ["./wait-for-it.sh", "db:5432", "--", "your_app_start_command"]
+  app:
+    image: radiumr30/meattestrep:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "90:90"
+    environment:
+      DATABASE_URL: postgres://postgres:123@db:5432/meat_test1
+      CONNECTION_STRING: "Host=db;Port=5432;Database=meat_test1;Username=postgres;Password=123"
+    networks:
+      - db-network
+    command: ["./wait-for-it.sh", "db:5432", "--", "your_app_start_command"]
 
 networks:
   db-network:
