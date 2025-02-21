@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
 
   db:
@@ -24,15 +26,15 @@ services:
       timeout: 5s
       retries: 5
 
- pgadmin:
+  pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: IslandTheDefender@mail.ru
-      PGADMIN_USER: postgres
       PGADMIN_DEFAULT_PASSWORD: 123
+      PGADMIN_USER: postgres  # Обратите внимание, что это поле должно быть ниже PGADMIN_DEFAULT_PASSWORD
     depends_on:
-      - postgres
+      - db  # Исправлено на db вместо postgres
     networks:
       - db-network
     ports:
@@ -56,4 +58,4 @@ networks:
   db-network:
 
 volumes:
-  db_data:      
+  db_data:
