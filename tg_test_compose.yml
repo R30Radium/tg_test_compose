@@ -2,17 +2,22 @@ services:
   db:
     image: postgres:17
     restart: always
+services:
+  db:
+    image: postgres:17
+    restart: always
     environment:
       POSTGRES_DB: meat_test1
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
+      POSTGRES_MAX_CONNECTIONS: 100
+      POSTGRES_SHARED_BUFFERS: 256MB
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    command: ["postgres"]
+
     networks:
       - db-network
     healthcheck:
