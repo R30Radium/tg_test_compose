@@ -9,6 +9,7 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_MAX_CONNECTIONS: 100
       POSTGRES_SHARED_BUFFERS: 256MB
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     volumes:
@@ -36,3 +37,9 @@ services:
       CONNECTION_STRING: "Host=db;Port=5432;Database=meat_test1;Username=postgres;Password=123"
     networks:
       - db-network
+
+networks:
+  db-network:
+
+volumes:
+  db_data:      
