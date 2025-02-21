@@ -15,7 +15,9 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
-
+    networks:
+      - db-network
+    
   app:
     image: radiumr30/meattestrep:latest
     restart: always
@@ -28,7 +30,6 @@ services:
       CONNECTION_STRING: "Host=db;Port=5432;Database=meat_test1;Username=postgres;Password=123"
     networks:
       - db-network
-    command: ["./wait-for-it.sh", "db:5432", "--", "your_app_start_command"]
 
 networks:
   db-network:
