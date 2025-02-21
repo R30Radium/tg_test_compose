@@ -31,9 +31,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: IslandTheDefender@mail.ru
       PGADMIN_DEFAULT_PASSWORD: 123
-      PGADMIN_USER: postgres  # Обратите внимание, что это поле должно быть ниже PGADMIN_DEFAULT_PASSWORD
+      PGADMIN_USER: postgres  
     depends_on:
-      - db  # Исправлено на db вместо postgres
+      - db  
     networks:
       - db-network
     ports:
