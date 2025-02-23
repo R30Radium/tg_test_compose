@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     command: ["postgres"]
     networks:
       - db-network
@@ -57,4 +57,5 @@ networks:
   db-network:
 
 volumes:
-  db_data:
+  pg_data:
+    external: true
